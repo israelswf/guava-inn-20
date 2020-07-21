@@ -3,7 +3,15 @@ class ReservationsController < ApplicationController
     @should_show_results = params[:start_date].present? &&
       params[:end_date].present? &&
       params[:number_of_guests].present?
-    @available_rooms = @should_show_results ? Room.all : Room.none
+    @available_rooms = @should_show_results ? search_avaliable_rooms : Room.none
+  end
+
+  def search_avaliable_rooms
+    Room.where.not(id: rooms_already_booked).where("capacity >= ?", params[:number_of_guests])
+  end
+
+  def rooms_already_booked
+    Reservation.where("start_date < ? AND end_date > ?", params[:end_date], params[:start_date]).select("room_id")
   end
 
   def new
