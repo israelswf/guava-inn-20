@@ -7,11 +7,8 @@ class ReservationsController < ApplicationController
   end
 
   def search_avaliable_rooms
-    Room.where.not(id: rooms_already_booked).where("capacity >= ?", params[:number_of_guests])
-  end
-
-  def rooms_already_booked
-    Reservation.where("start_date < ? AND end_date > ?", params[:end_date], params[:start_date]).select("room_id")
+    Room.where.not(id: Reservation.rooms_already_booked(params[:start_date], params[:end_date]))
+        .where("capacity >= ?", params[:number_of_guests])
   end
 
   def new

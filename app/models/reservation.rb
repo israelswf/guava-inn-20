@@ -27,9 +27,12 @@ class Reservation < ApplicationRecord
     end
   end
 
+  def self.rooms_already_booked(start_date, end_date)
+    Reservation.where("start_date < ? AND end_date > ?", end_date, start_date).select("room_id")
+  end
+
   def room_is_already_booked
-    already_booked = Reservation.where("start_date < ? AND end_date > ? AND room_id = ?", end_date, start_date, room_id).present?
-    if already_booked
+    if Reservation.rooms_already_booked(start_date, end_date).find_by_room_id(room_id).present?
       errors.add(:base, :room_already_booked, message: "Room is already booked during this period.")
     end
   end
