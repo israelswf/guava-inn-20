@@ -199,15 +199,23 @@ RSpec.describe 'Rooms', type: :system do
     context 'when the room has no reservations' do
       before do
         @room.reservations.destroy_all
+        visit room_path(@room.id)
       end
 
       it 'shows an empty listing' do
-        visit room_path(@room.id)
-
         within('table') do
           expect(page).to have_content('There are no reservations for this room')
         end
       end
+
+      it 'shows 0% on Occupation Rate for the weekly and month' do
+        occupation_week = page.find_by_id('occupation_week')
+        expect(occupation_week).to have_content('Occupation Rate (Week): 0%')
+
+        occupation_month = page.find_by_id('occupation_month')
+        expect(occupation_month).to have_content('Occupation Rate (Month): 0%')
+      end
+
     end
   end
 

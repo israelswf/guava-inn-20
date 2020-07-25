@@ -12,14 +12,14 @@
   <%= @room.capacity %>
 </p>
 
-<p>
+<p id='occupation_week'>
   <strong>Occupation Rate (Week):</strong>
-  50%
+  <%= @room.week_reservation_rate %>
 </p>
 
-<p>
+<p id='occupation_month'>
   <strong>Occupation Rate (Month):</strong>
-  25%
+  <%= @room.month_reservation_rate %>
 </p>
 
 <p>
