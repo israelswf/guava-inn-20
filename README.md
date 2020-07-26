@@ -2,6 +2,8 @@
 
 Bem-vindo ao teste de back-end da Guava. A aplicação deste repositório simula um sistema de gerenciamento de reservas para uma pequena pousada. Assuma que o sistema tem apenas um usuário: o funcionário que administra a pousada. O teste consiste em implementar correções e melhorias nesta aplicação, descritas pelas duas estórias de usuário a seguir.
 
+## Notas de implementação (por Israel Costa) [clique aqui](#notas-de-implementação-por-israel-costa)
+
 ## Software necessário
 
 - Ruby 2.7.1
@@ -44,7 +46,7 @@ Atualmente, na página _New Reservation_, a busca por quartos para criação de 
 
 ## Estória 2: Calcular taxas de ocupação mensal e semanal, global e por quarto
 
-A aplicação mostra atualmente valores estáticos para as taxas de ocupação globais e por quarto (50% para a taxa semanal e 25% para a taxa mensal). O sistema deve calcular estes valores e exibi-los corretamente tanto na listagem geral dos quartos (nas caixas da seção _Global Occupation_ e na tabela que lista os quartos) como também na página de detalhamento de cada quarto (página _Room ###_). A taxa de ocupação de um quarto é calculada dividindo a quantidade de dias em que o quarto está ocupado pela quantidade de dias do período total. Por exemplo: se o quarto está 4 dias ocupados nos próximos 7 dias, a taxa de ocupação semanal do quarto é 4/7 = 57%. A taxa de ocupação mensal de um quarto é calculada de forma equivalente, considerando os próximos 30 dias. A taxa de ocupação global é a média da taxa de ocupação de todos os quartos no respectivo período.
+A aplicação mostra atualmente valores estáticos para as taxas de ocupação globais e por quarto (50% para a taxa semanal e 25% para a taxa mensal). O sistema deve calcular estes valores e exibi-los corretamente tanto na listagem geral dos quartos (nas caixas da seção _Global Occupancy_ e na tabela que lista os quartos) como também na página de detalhamento de cada quarto (página _Room ###_). A taxa de ocupação de um quarto é calculada dividindo a quantidade de dias em que o quarto está ocupado pela quantidade de dias do período total. Por exemplo: se o quarto está 4 dias ocupados nos próximos 7 dias, a taxa de ocupação semanal do quarto é 4/7 = 57%. A taxa de ocupação mensal de um quarto é calculada de forma equivalente, considerando os próximos 30 dias. A taxa de ocupação global é a média da taxa de ocupação de todos os quartos no respectivo período.
 
 ### Observações e cenários alternativos
 
@@ -68,3 +70,20 @@ De 13/07 a 27/07/2020.
 - Você pode adicionar notas de implementação ou documentar decisões tomadas ao longo do projeto aqui no README. Qualquer informação que nos ajude na avaliação é bem-vinda.
 - Esteja preparado para discutir as soluções e aspectos do código posteriormente com a gente.
 - Em caso de dúvida, é só perguntar por e-mail que a gente responde em até dois dias úteis.
+
+<br />
+
+## Notas de implementação (por Israel Costa)
+
+### Considerações gerais
+- Neste desafio, busquei seguir as estratégias de desenvolvimento orientado a comportamento propostas pelo BDD (Behavior Driven Development). Antes de codificar cada uma das regras de negócio propostas, codifiquei alguns testes descrevendo diversos cenários (de sucesso ou insucesso) relacionados àquela regra em questão, para só então codificar as regras fazendo assim os testes passarem. E claro, refatorando e aprimorando o sistema sempre que necessário. 
+- Refatorei a palavra **Occupation** (que tem o sentido mais próximo de tomada, conquista) para **Occupancy** (que tem o sentido mais próximo de permanência em uma acomodação) em todo o sistema.
+
+### Arquitetura
+- 
+
+### Reservations
+- Ajustei o teste '**validates that start_date is not equal to end_date**' em spec/models/reservation_spec.rb passando datas iguais. O teste originalmente foi criado de maneira errada passando datas distintas.
+  
+### Rooms
+- 

@@ -20,7 +20,7 @@ RSpec.describe 'Rooms', type: :system do
         within('thead') do
           expect(page).to have_content('Code')
           expect(page).to have_content('Capacity')
-          expect(page).to have_content('Occupation')
+          expect(page).to have_content('Occupancy')
           expect(page).to have_content('Actions')
         end
 
@@ -199,16 +199,59 @@ RSpec.describe 'Rooms', type: :system do
     context 'when the room has no reservations' do
       before do
         @room.reservations.destroy_all
+        visit room_path(@room.id)
       end
 
       it 'shows an empty listing' do
-        visit room_path(@room.id)
-
         within('table') do
           expect(page).to have_content('There are no reservations for this room')
         end
       end
+
+      it 'shows 0% on Occupancy Rate for the week and month' do
+        occupancy_week = page.find_by_id('occupancy_week')
+        expect(occupancy_week).to have_content('Occupancy Rate (Week): 0%')
+
+        occupancy_month = page.find_by_id('occupancy_month')
+        expect(occupancy_month).to have_content('Occupancy Rate (Month): 0%')
+      end
     end
+
+    context 'when the room is booked for the whole week' do
+      it 'shows 100% on Occupancy Rate for the week' do
+
+        @room.reservations.destroy_all
+        @room.reservations.create(
+          id: 1,
+          start_date: Date.today + 1.day,
+          end_date: Date.today + 8.day ,
+          guest_name: 'João Santana',
+          number_of_guests: 1,
+        )
+        visit room_path(@room.id)
+
+        occupancy_week = page.find_by_id('occupancy_week')
+        expect(occupancy_week).to have_content('Occupancy Rate (Week): 100%')
+      end
+    end
+
+    context 'when the room is booked for the whole month' do
+      it 'shows 100% on Occupancy Rate for the month' do
+        @room.reservations.destroy_all
+        @room.reservations.create(
+          id: 1,
+          start_date: Date.today + 1.day,
+          end_date: Date.today + 31.day ,
+          guest_name: 'João Santana',
+          number_of_guests: 1,
+        )
+        visit room_path(@room.id)
+        
+        occupancy_month = page.find_by_id('occupancy_month')
+        expect(occupancy_month).to have_content('Occupancy Rate (Month): 100%')
+      end
+    end
+
   end
 
   describe 'edit room' do
