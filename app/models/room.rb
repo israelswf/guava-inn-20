@@ -5,7 +5,7 @@ class Room < ApplicationRecord
   validates_uniqueness_of :code
   validates_numericality_of :capacity, greater_than: 0, less_than_or_equal_to: 10
 
-  def occupation_rate(range, room_id = id)
+  def occupancy_rate(range, room_id = id)
     start_date_range = Date.today + 1.day
     end_date_range = Date.today + range.day 
     start_date_range.to_s + " " + end_date_range.to_s
@@ -38,25 +38,25 @@ class Room < ApplicationRecord
 
   end
 
-  def week_occupation_rate
-    occupation_rate(7).to_s + "%"
+  def week_occupancy_rate
+    occupancy_rate(7).to_s + "%"
   end
 
-  def month_occupation_rate
-    occupation_rate(30).to_s + "%"
+  def month_occupancy_rate
+    occupancy_rate(30).to_s + "%"
   end
 
   def rooms_with_reservation
     Reservation.distinct.pluck(:room_id)
   end
 
-  def global_occupation_rate(range)
+  def global_occupancy_rate(range)
     if Room.any?
       total = 0    
       reservations = rooms_with_reservation
 
       reservations.each do |r|
-        total += occupation_rate(range, r)
+        total += occupancy_rate(range, r)
       end
       total / Room.count
     else
@@ -66,11 +66,11 @@ class Room < ApplicationRecord
   end
 
   def global_week_rate
-    global_occupation_rate(7).to_s + "%"
+    global_occupancy_rate(7).to_s + "%"
   end
 
   def global_month_rate
-    global_occupation_rate(30).to_s + "%" 
+    global_occupancy_rate(30).to_s + "%" 
   end
 
 end
