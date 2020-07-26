@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Room, type: :model do
-  it 'validates presence of code' do
+  it 'validat000000es presence of code' do
     room = Room.new
 
     expect(room).to_not be_valid
@@ -43,4 +43,22 @@ RSpec.describe Room, type: :model do
     expect(room).to_not be_valid
     expect(room).to have_error_on(:capacity, :less_than_or_equal_to)
   end
+
+  it 'validates that initial week occupation rate is 0%' do
+    room = Room.new
+    expect(room.week_occupation_rate).to eq('0%')
+  end
+
+  it 'validates that initial month occupation rate is 0%' do
+    room = Room.new
+    expect(room.month_occupation_rate).to eq('0%')
+  end
+
+  context 'when room is fully booked for the week' do
+    it 'validates that week occupation rate is 10%' do
+      room = Room.new
+      expect(room.week_occupation_rate).to eq('100%')
+    end
+  end
+
 end
