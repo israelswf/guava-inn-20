@@ -221,7 +221,6 @@ RSpec.describe 'Rooms', type: :system do
       it 'shows 100% on Occupation Rate for the week' do
 
         @room.reservations.destroy_all
-
         @room.reservations.create(
           id: 1,
           start_date: Date.today + 1.day,

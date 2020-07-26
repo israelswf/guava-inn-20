@@ -56,8 +56,31 @@ RSpec.describe Room, type: :model do
 
   context 'when room is fully booked for the week' do
     it 'validates that week occupation rate is 100%' do
-      room = Room.new
+
+      start_date = Date.today + 1.day
+      end_date = Date.today + 8.day
+      guest_name = 'João Santana',
+      number_of_guests = 1
+
+      room = Room.create!(code: '105', capacity: 5)
+      room.reservations.create!(start_date: start_date, end_date: end_date, 
+        guest_name: guest_name, number_of_guests: number_of_guests)
       expect(room.week_occupation_rate).to eq('100%')
+    end
+  end
+
+  context 'when room is fully booked for the month' do
+    it 'validates that month occupation rate is 100%' do
+
+      start_date = Date.today + 1.day
+      end_date = Date.today + 31.day
+      guest_name = 'João Santana',
+      number_of_guests = 1
+
+      room = Room.create!(code: '105', capacity: 5)
+      room.reservations.create!(start_date: start_date, end_date: end_date, 
+        guest_name: guest_name, number_of_guests: number_of_guests)
+      expect(room.month_occupation_rate).to eq('100%')
     end
   end
 
