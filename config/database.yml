@@ -83,7 +83,4 @@ test:
 #     url: <%= ENV['DATABASE_URL'] %>
 #
 production:
-  <<: *default
-  database: guava_inn_production
-  username: guava_inn
-  password: <%= ENV['GUAVA_INN_DATABASE_PASSWORD'] %>
+  url: <%= ENV['DATABASE_URL'] %>
