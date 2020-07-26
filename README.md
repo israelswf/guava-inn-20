@@ -2,7 +2,7 @@
 
 Bem-vindo ao teste de back-end da Guava. A aplicação deste repositório simula um sistema de gerenciamento de reservas para uma pequena pousada. Assuma que o sistema tem apenas um usuário: o funcionário que administra a pousada. O teste consiste em implementar correções e melhorias nesta aplicação, descritas pelas duas estórias de usuário a seguir.
 
-## Notas de implementação (por Israel Costa) [clique aqui](#Notas-de-implementacao-(por-Israel-Costa))
+## Notas de implementação (por Israel Costa) [clique aqui](#Notas-de-implementação-(por-Israel-Costa))
 
 ## Software necessário
 
