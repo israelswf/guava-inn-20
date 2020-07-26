@@ -208,15 +208,50 @@ RSpec.describe 'Rooms', type: :system do
         end
       end
 
-      it 'shows 0% on Occupation Rate for the weekly and month' do
+      it 'shows 0% on Occupation Rate for the week and month' do
         occupation_week = page.find_by_id('occupation_week')
         expect(occupation_week).to have_content('Occupation Rate (Week): 0%')
 
         occupation_month = page.find_by_id('occupation_month')
         expect(occupation_month).to have_content('Occupation Rate (Month): 0%')
       end
-
     end
+
+    context 'when the room is booked for the whole week' do
+      it 'shows 100% on Occupation Rate for the week' do
+
+        @room.reservations.destroy_all
+        visit room_path(@room.id)
+
+        @room.reservations.create(
+          id: 1,
+          start_date: Date.today + 1.day,
+          end_date: Date.today + 7.day ,
+          guest_name: 'João Santana',
+          number_of_guests: 1,
+        )
+        occupation_week = page.find_by_id('occupation_week')
+        expect(occupation_week).to have_content('Occupation Rate (Week): 100%')
+      end
+    end
+
+    context 'when the room is booked for the whole month' do
+      it 'shows 100% on Occupation Rate for the month' do
+        @room.reservations.destroy_all
+        visit room_path(@room.id)
+
+        @room.reservations.create(
+          id: 1,
+          start_date: Date.today + 1.day,
+          end_date: Date.today + 30.day ,
+          guest_name: 'João Santana',
+          number_of_guests: 1,
+        )
+        occupation_month = page.find_by_id('occupation_month')
+        expect(occupation_month).to have_content('Occupation Rate (Month): 100%')
+      end
+    end
+
   end
 
   describe 'edit room' do
