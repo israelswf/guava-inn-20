@@ -2,6 +2,8 @@ class RoomsController < ApplicationController
   before_action :set_room, only: [:show, :edit, :update, :destroy]
 
   def index
+    @global_week_rate = Room.new.global_week_rate
+    @global_month_rate = Room.new.global_month_rate
     @rooms = Room.all
   end
 

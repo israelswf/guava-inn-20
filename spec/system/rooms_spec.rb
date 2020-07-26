@@ -221,15 +221,16 @@ RSpec.describe 'Rooms', type: :system do
       it 'shows 100% on Occupation Rate for the week' do
 
         @room.reservations.destroy_all
-        visit room_path(@room.id)
 
         @room.reservations.create(
           id: 1,
           start_date: Date.today + 1.day,
-          end_date: Date.today + 7.day ,
+          end_date: Date.today + 8.day ,
           guest_name: 'João Santana',
           number_of_guests: 1,
         )
+        visit room_path(@room.id)
+
         occupation_week = page.find_by_id('occupation_week')
         expect(occupation_week).to have_content('Occupation Rate (Week): 100%')
       end
@@ -238,15 +239,15 @@ RSpec.describe 'Rooms', type: :system do
     context 'when the room is booked for the whole month' do
       it 'shows 100% on Occupation Rate for the month' do
         @room.reservations.destroy_all
-        visit room_path(@room.id)
-
         @room.reservations.create(
           id: 1,
           start_date: Date.today + 1.day,
-          end_date: Date.today + 30.day ,
+          end_date: Date.today + 31.day ,
           guest_name: 'João Santana',
           number_of_guests: 1,
         )
+        visit room_path(@room.id)
+        
         occupation_month = page.find_by_id('occupation_month')
         expect(occupation_month).to have_content('Occupation Rate (Month): 100%')
       end
