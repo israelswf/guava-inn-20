@@ -4,6 +4,8 @@ class Room < ApplicationRecord
   validates_presence_of :code, :capacity
   validates_uniqueness_of :code
   validates_numericality_of :capacity, greater_than: 0, less_than_or_equal_to: 10
+  #validate :change_room_with_reservations, :on => :update
+  validate :change_room_with_reservations, :on => :update
 
   def occupancy_rate(range, room_id = id)
     start_date_range = Date.today + 1.day
@@ -39,6 +41,7 @@ class Room < ApplicationRecord
   end
 
   def week_occupancy_rate
+    puts self.reservations.count
     occupancy_rate(7).to_s + "%"
   end
 
@@ -71,6 +74,12 @@ class Room < ApplicationRecord
 
   def global_month_rate
     global_occupancy_rate(30).to_s + "%" 
+  end
+
+  def change_room_with_reservations
+    if capacity_changed? && self.reservations.count > 0
+      errors.add(:base, :change_room_with_reservations, message: 'Can\'t change capacity of a room with reservations.')
+    end
   end
 
 end

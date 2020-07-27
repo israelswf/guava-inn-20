@@ -84,4 +84,21 @@ RSpec.describe Room, type: :model do
     end
   end
 
+  context 'when editing the capacity of a room' do
+    it 'validates that room does not have reservations' do
+      start_date = Date.today + 1.day
+      end_date = Date.today + 8.day
+      guest_name = 'João Santana',
+      number_of_guests = 5
+
+      room = Room.create!(code: '105', capacity: 5)
+      room.reservations.create!(start_date: start_date, end_date: end_date, 
+        guest_name: guest_name, number_of_guests: number_of_guests)
+      
+      room.capacity = 4
+      expect(room).to_not be_valid
+      expect(room).to have_error_on(:base, :change_room_with_reservations)
+    end
+  end
+
 end
